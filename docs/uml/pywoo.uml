@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_W3HTEL8qEeuEecdtmvW-dw" name="oo2yw7">
+  <packageImport xmi:type="uml:PackageImport" xmi:id="_W-r6sL8qEeuEecdtmvW-dw">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:Package" xmi:id="_6B5gkPywEeqEK6KdQRY5bw" name="oo2yw7lib">
+    <ownedComment xmi:type="uml:Comment" xmi:id="_BuPpkJ4eEeyF8YP9gUP_SQ" annotatedElement="_6B5gkPywEeqEK6KdQRY5bw __331cPywEeqEK6KdQRY5bw">
+      <body>Strategy classes&#xD;
+used by the oo2yw7.pyw &#xD;
+application script</body>
+    </ownedComment>
+    <ownedComment xmi:type="uml:Comment" xmi:id="_3h8YMJ4eEeyF8YP9gUP_SQ">
+      <annotatedElement xmi:type="uml:Class" href="../PyWriter/PyWriter.uml#_Z2J44MFgEeu3Uqtx9hJ-Ng"/>
+      <body>Use tkinter messageboxes &#xD;
+for user interaction and&#xD;
+error messaging</body>
+    </ownedComment>
+    <ownedComment xmi:type="uml:Comment" xmi:id="_Ase1IJ4fEeyF8YP9gUP_SQ" annotatedElement="__331cPywEeqEK6KdQRY5bw">
+      <body>Open ODT/ODS file after conversion</body>
+    </ownedComment>
+    <packagedElement xmi:type="uml:Class" xmi:id="__331cPywEeqEK6KdQRY5bw" name="Converter">
+      <generalization xmi:type="uml:Generalization" xmi:id="_F7SJYPyxEeqEK6KdQRY5bw">
+        <general xmi:type="uml:Class" href="../PyWriter/PyWriter.uml#_gJJ3IL4iEeuITv7MyBA5yA"/>
+      </generalization>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_-yM2oL8rEeuEecdtmvW-dw" name="export_from_yw" visibility="public"/>
+    </packagedElement>
+  </packagedElement>
+</uml:Model>

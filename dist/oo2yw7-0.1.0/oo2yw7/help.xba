@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE script:module PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "module.dtd">
+<script:module xmlns:script="http://openoffice.org/2000/script" script:name="help" script:language="StarBasic">REM  *****  BASIC  *****
+
+&apos; Thanks to Bernard Marcelly for his instruction how to open a web page
+&apos; See: https://forum.openoffice.org/en/forum/viewtopic.php?f=20&amp;t=70721
+
+Sub show_help
+	Dim launcher As Object
+	Dim aWebPage As String
+	Dim sPackageLocation As String
+	oPackageInfoProvider = GetDefaultContext.getByName(&quot;/singletons/com.sun.star.deployment.PackageInformationProvider&quot;)
+	sPackageLocation = oPackageInfoProvider.getPackageLocation(&quot;org.peter88213.oo2yw7&quot;)	
+	launcher = CreateUnoService(&quot;com.sun.star.system.SystemShellExecute&quot;)
+	aWebPage = sPackageLocation + &quot;/help/help-&quot; + GetLocale() + &quot;.html&quot;
+	If not FileExists(aWebPage)	Then	
+		aWebPage = sPackageLocation + &quot;/help/help.html&quot;
+	End If
+	launcher.execute(aWebPage, &quot;&quot;, 0)
+End Sub
+
+Sub show_adv_help
+	Dim launcher As Object
+	Dim aWebPage As String
+	Dim sPackageLocation As String
+	oPackageInfoProvider = GetDefaultContext.getByName(&quot;/singletons/com.sun.star.deployment.PackageInformationProvider&quot;)
+	sPackageLocation = oPackageInfoProvider.getPackageLocation(&quot;org.peter88213.oo2yw7&quot;)	
+	launcher = CreateUnoService(&quot;com.sun.star.system.SystemShellExecute&quot;)
+	aWebPage = sPackageLocation + &quot;/help/help-adv-&quot; + GetLocale() + &quot;.html&quot;
+	If not FileExists(aWebPage)	Then	
+		aWebPage = sPackageLocation + &quot;/help/help-adv.html&quot;
+	End If
+
+	launcher.execute(aWebPage, &quot;&quot;, 0)
+End Sub
+
+&apos; Get application locale
+&apos; Author : Laurent Godard
+&apos; e-mail : listes.godard@laposte.net
+Function GetLocale() as string
+
+	Dim oSet as Variant, oConfigProvider as Variant
+	Dim oParm(0) As New com.sun.star.beans.PropertyValue
+	Dim sProvider as String, sAccess as String
+	
+	sProvider = &quot;com.sun.star.configuration.ConfigurationProvider&quot;
+	sAccess   = &quot;com.sun.star.configuration.ConfigurationAccess&quot;
+	
+	oConfigProvider = createUnoService(sProvider)
+	oParm(0).Name = &quot;nodepath&quot;
+	oParm(0).Value = &quot;/org.openoffice.Setup/L10N&quot;
+	oSet = oConfigProvider.createInstanceWithArguments(sAccess, oParm())
+	
+	Dim str as String
+	
+	str = oSet.getbyname(&quot;ooLocale&quot;)
+
+GetLocale() = str
+
+End Function	
+
+</script:module>
