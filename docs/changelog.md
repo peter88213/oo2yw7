@@ -4,6 +4,13 @@
 
 ## Changelog
 
+### v0.2.4
+
+- Update help.
+- Refactor the code.
+
+Based on PyWriter v7.14.1
+
 ### v0.2.3
 
 - Fix a bug in document export, where the language setting is not recognized if applied to the whole paragraph. 

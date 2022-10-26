@@ -19,21 +19,6 @@ Sub show_help
 	launcher.execute(aWebPage, &quot;&quot;, 0)
 End Sub
 
-Sub show_adv_help
-	Dim launcher As Object
-	Dim aWebPage As String
-	Dim sPackageLocation As String
-	oPackageInfoProvider = GetDefaultContext.getByName(&quot;/singletons/com.sun.star.deployment.PackageInformationProvider&quot;)
-	sPackageLocation = oPackageInfoProvider.getPackageLocation(&quot;org.peter88213.oo2yw7&quot;)	
-	launcher = CreateUnoService(&quot;com.sun.star.system.SystemShellExecute&quot;)
-	aWebPage = sPackageLocation + &quot;/help/help-adv-&quot; + GetLocale() + &quot;.html&quot;
-	If not FileExists(aWebPage)	Then	
-		aWebPage = sPackageLocation + &quot;/help/help-adv.html&quot;
-	End If
-
-	launcher.execute(aWebPage, &quot;&quot;, 0)
-End Sub
-
 &apos; Get application locale
 &apos; Author : Laurent Godard
 &apos; e-mail : listes.godard@laposte.net

@@ -1,6 +1,6 @@
 # The oo2yw7 extension for OpenOffice and Python: Export to yw7 format
 
-For more information, see the [project homepage](https://peter8oo2yw7github.io/oo2yw7) with description and download instructions.
+For more information, see the [project homepage](https://peter/oo2yw7github.io/oo2yw7) with description and download instructions.
 
 ## Development
 
@@ -12,7 +12,6 @@ For more information, see the [project homepage](https://peter8oo2yw7github.io/o
 .
 ├── PyWriter/
 │   └── src/
-│       └── oo2yw7ter/
 └── oo2yw7/
     ├── src/
     ├── test/
