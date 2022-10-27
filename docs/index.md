@@ -20,8 +20,8 @@ You can find more information on the [help pages](help).
 ## Requirements
 
 - Windows.
-- [OpenOffice](https://www.openoffice.org) version 3.0 or more recent.
-- [Python 3.6+](https://www.python.org/).
+- [OpenOffice](https://www.openoffice.org) version 3.1 or more recent.
+- [Python](https://www.python.org/) version 3.6 min.; version 3.10 max.
 - Java Runtime Environment (OpenOffice might need it for macro execution).
 
 
