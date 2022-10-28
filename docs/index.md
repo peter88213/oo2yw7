@@ -1,18 +1,11 @@
 ![screenshot](Screenshots/lo_menu.png)
 
-[yWriter](http://spacejock.com/yWriter7.html) is a free word processor written by Australian author and programmer Simon Haynes. yWriter's strengths are structuring novels and controlling the progress during the writing process. With this extension you can combine the advantages of yWriter 7 with the advantages of OpenOffice.
+This is a lightweight variant of the [pywoo](https://peter88213.github.io/pywoo) extension,  providing export to the yw7 file format only. It is primarily intended as a complement to [novelyst](https://peter88213.github.io/novelyst), for writing ODF documents back to the yw7 file format. 
 
 ## Features (a Python 3 installation is required)
 
-- Generate a "standard manuscript" formatted **ODF text document (ODT)** from a yWriter 7 project.
-- Load yWriter 7 chapters and scenes into an OpenDocument file with chapter and scene markers for **proof reading** and writing back.
-- Generate a **brief synopsis** with chapter and scene titles from a yWriter 7 project.
-- Generate a **character list** that can be edited in Office Calc and written back to yWriter format.
-- Generate a **location list** that can be edited in Office Calc and
- written back to yWriter format.
-- Generate an **item list** that can be edited in Office Calc and written back to yWriter format.
-- Generate an OpenDocument text file containing navigable **cross references**, such as scenes per character, characters per tag, etc.
-- Generate a new yWriter 7 project from a **work in progress** or an **outline** .
+- Synchronize a yw7 project from a rewritable OpenDocument file, such as a manuscript, proofing document, several description documents, or spreadsheets, created by [novelyst](https://peter88213.github.io/novelyst) or [yW2OO](https://peter88213.github.io/yW2OO).
+- Generate a new yw7 project file from a **work in progress** or an **outline** .
 - The extension is ready for internationalization with GNU gettext. A German localization with help pages in German is provided.
 
 You can find more information on the [help pages](help).
@@ -25,12 +18,12 @@ You can find more information on the [help pages](help).
 - Java Runtime Environment (OpenOffice might need it for macro execution).
 
 
-__LibreOffice users:__ _A stand-alone LibreOffice variant not requiring a separate Python installation can be found [here](https://peter88213.github.io/yw-cnv)._
+**LibreOffice users:** *A stand-alone LibreOffice variant not requiring a separate Python installation can be found [here](https://peter88213.github.io/lo2yw7).*
 
 
 ## Download and install
 
-[Download the latest release (version 0.2.4)](https://raw.githubusercontent.com/peter88213/oo2yw7/main/dist/oo2yw7-0.2.4.oxt)
+[Download the latest release (version 0.2.5)](https://raw.githubusercontent.com/peter88213/oo2yw7/main/dist/oo2yw7-0.2.5.oxt)
 
 - Installation right at download, by double-clicking on the downloaded file, or via the OpenOffice Extension Manager.
 - After installation (and Office restart) you find a new "yWriter Import/Export" submenu in the "Files" menu.
