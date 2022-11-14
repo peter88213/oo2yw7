@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Convert html/csv to yw7. 
 
-Version 1.0.0
+Version 1.0.1
 Requires Python 3.6+
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/oo2yw7
@@ -21,6 +21,7 @@ __all__ = ['Error',
            'ADDITIONAL_WORD_LIMITS',
            'NO_WORD_LIMITS',
            'NON_LETTERS',
+           'norm_path',
            'string_to_list',
            'list_to_string',
            'get_languages',
@@ -55,6 +56,12 @@ NO_WORD_LIMITS = re.compile('\[.+?\]|\/\*.+?\*\/|-|^\>', re.MULTILINE)
 NON_LETTERS = re.compile('\[.+?\]|\/\*.+?\*\/|\n|\r')
 # this is to be replaced by empty strings, thus excluding markup, comments, and linefeeds
 # from letter counting
+
+
+def norm_path(path):
+    if path is None:
+        path = ''
+    return os.path.normpath(path)
 
 
 def string_to_list(text, divider=';'):
@@ -129,15 +136,15 @@ def get_languages(text):
 def open_document(document):
     """Open a document with the operating system's standard application."""
     try:
-        os.startfile(os.path.normpath(document))
+        os.startfile(norm_path(document))
         # Windows
     except:
         try:
-            os.system('xdg-open "%s"' % os.path.normpath(document))
+            os.system('xdg-open "%s"' % norm_path(document))
             # Linux
         except:
             try:
-                os.system('open "%s"' % os.path.normpath(document))
+                os.system('open "%s"' % norm_path(document))
                 # Mac
             except:
                 pass
@@ -234,13 +241,13 @@ class YwCnv:
         - Raise the "Error" exception in case of error. 
         """
         if source.filePath is None:
-            raise Error(f'{_("File type is not supported")}: "{os.path.normpath(source.filePath)}".')
+            raise Error(f'{_("File type is not supported")}.')
 
         if not os.path.isfile(source.filePath):
-            raise Error(f'{_("File not found")}: "{os.path.normpath(source.filePath)}".')
+            raise Error(f'{_("File not found")}: "{norm_path(source.filePath)}".')
 
         if target.filePath is None:
-            raise Error(f'{_("File type is not supported")}: "{os.path.normpath(target.filePath)}".')
+            raise Error(f'{_("File type is not supported")}.')
 
         if os.path.isfile(target.filePath) and not self._confirm_overwrite(target.filePath):
             raise Error(f'{_("Action canceled by user")}.')
@@ -297,14 +304,14 @@ class YwCnvUi(YwCnv):
         - If the conversion fails, newFile is set to None.
         """
         self.ui.set_info_what(
-            _('Input: {0} "{1}"\nOutput: {2} "{3}"').format(source.DESCRIPTION, os.path.normpath(source.filePath), target.DESCRIPTION, os.path.normpath(target.filePath)))
+            _('Input: {0} "{1}"\nOutput: {2} "{3}"').format(source.DESCRIPTION, norm_path(source.filePath), target.DESCRIPTION, norm_path(target.filePath)))
         try:
             self.convert(source, target)
         except Error as ex:
             message = f'!{str(ex)}'
             self.newFile = None
         else:
-            message = f'{_("File written")}: "{os.path.normpath(target.filePath)}".'
+            message = f'{_("File written")}: "{norm_path(target.filePath)}".'
             self.newFile = target.filePath
         finally:
             self.ui.set_info_how(message)
@@ -328,9 +335,9 @@ class YwCnvUi(YwCnv):
         - If the conversion fails, newFile is set to None.
         """
         self.ui.set_info_what(
-            _('Create a yWriter project file from {0}\nNew project: "{1}"').format(source.DESCRIPTION, os.path.normpath(target.filePath)))
+            _('Create a yWriter project file from {0}\nNew project: "{1}"').format(source.DESCRIPTION, norm_path(target.filePath)))
         if os.path.isfile(target.filePath):
-            self.ui.set_info_how(f'!{_("File already exists")}: "{os.path.normpath(target.filePath)}".')
+            self.ui.set_info_how(f'!{_("File already exists")}: "{norm_path(target.filePath)}".')
         else:
             try:
                 self.convert(source, target)
@@ -338,7 +345,7 @@ class YwCnvUi(YwCnv):
                 message = f'!{str(ex)}'
                 self.newFile = None
             else:
-                message = f'{_("File written")}: "{os.path.normpath(target.filePath)}".'
+                message = f'{_("File written")}: "{norm_path(target.filePath)}".'
                 self.newFile = target.filePath
             finally:
                 self.ui.set_info_how(message)
@@ -362,14 +369,14 @@ class YwCnvUi(YwCnv):
         - If the conversion fails, newFile is set to None.
         """
         self.ui.set_info_what(
-            _('Input: {0} "{1}"\nOutput: {2} "{3}"').format(source.DESCRIPTION, os.path.normpath(source.filePath), target.DESCRIPTION, os.path.normpath(target.filePath)))
+            _('Input: {0} "{1}"\nOutput: {2} "{3}"').format(source.DESCRIPTION, norm_path(source.filePath), target.DESCRIPTION, norm_path(target.filePath)))
         self.newFile = None
         try:
             self.convert(source, target)
         except Error as ex:
             message = f'!{str(ex)}'
         else:
-            message = f'{_("File written")}: "{os.path.normpath(target.filePath)}".'
+            message = f'{_("File written")}: "{norm_path(target.filePath)}".'
             self.newFile = target.filePath
             if target.scenesSplit:
                 self.ui.show_warning(_('New scenes created during conversion.'))
@@ -385,7 +392,7 @@ class YwCnvUi(YwCnv):
         
         Overrides the superclass method.
         """
-        return self.ui.ask_yes_no(_('Overwrite existing file "{}"?').format(os.path.normpath(filePath)))
+        return self.ui.ask_yes_no(_('Overwrite existing file "{}"?').format(norm_path(filePath)))
 
     def _delete_tempfile(self, filePath):
         """Delete filePath if it is a temporary file no longer needed."""
@@ -450,7 +457,7 @@ class ExportSourceFactory(FileFactory):
                 sourceFile = fileClass(sourcePath, **kwargs)
                 return sourceFile, None
 
-        raise Error(f'{_("File type is not supported")}: "{os.path.normpath(sourcePath)}".')
+        raise Error(f'{_("File type is not supported")}: "{norm_path(sourcePath)}".')
 
 
 class ExportTargetFactory(FileFactory):
@@ -610,7 +617,7 @@ class YwCnvFf(YwCnvUi):
         """
         self.newFile = None
         if not os.path.isfile(sourcePath):
-            self.ui.set_info_how(f'!{_("File not found")}: "{os.path.normpath(sourcePath)}".')
+            self.ui.set_info_how(f'!{_("File not found")}: "{norm_path(sourcePath)}".')
             return
 
         try:
@@ -1212,7 +1219,12 @@ class Novel(BasicElement):
         # URL-coded path to the project directory.
 
         self.languageCode = None
+        # str
+        # Language code acc. to ISO 639-1.
+
         self.countryCode = None
+        # str
+        # Country code acc. to ISO 3166-2.
 
         self.filePath = filePath
 
@@ -2103,7 +2115,7 @@ class Yw7File(Novel):
         try:
             self.tree = ET.parse(self.filePath)
         except:
-            raise Error(f'{_("Can not process file")}: "{os.path.normpath(self.filePath)}".')
+            raise Error(f'{_("Can not process file")}: "{norm_path(self.filePath)}".')
 
         root = self.tree.getroot()
         read_project(root)
@@ -3350,7 +3362,7 @@ class Yw7File(Novel):
             try:
                 os.replace(ywProject.filePath, f'{ywProject.filePath}.bak')
             except:
-                raise Error(f'{_("Cannot overwrite file")}: "{os.path.normpath(ywProject.filePath)}".')
+                raise Error(f'{_("Cannot overwrite file")}: "{norm_path(ywProject.filePath)}".')
             else:
                 backedUp = True
         try:
@@ -3358,7 +3370,7 @@ class Yw7File(Novel):
         except:
             if backedUp:
                 os.replace(f'{ywProject.filePath}.bak', ywProject.filePath)
-            raise Error(f'{_("Cannot write file")}: "{os.path.normpath(ywProject.filePath)}".')
+            raise Error(f'{_("Cannot write file")}: "{norm_path(ywProject.filePath)}".')
 
     def _postprocess_xml_file(self, filePath):
         '''Postprocess an xml file created by ElementTree.
@@ -3390,7 +3402,7 @@ class Yw7File(Novel):
             with open(filePath, 'w', encoding='utf-8') as f:
                 f.write(text)
         except:
-            raise Error(f'{_("Cannot write file")}: "{os.path.normpath(filePath)}".')
+            raise Error(f'{_("Cannot write file")}: "{norm_path(filePath)}".')
 
     def _strip_spaces(self, lines):
         """Local helper method.
@@ -3455,7 +3467,7 @@ def read_html_file(filePath):
             with open(filePath, 'r') as f:
                 content = (f.read())
         except(FileNotFoundError):
-            raise Error(f'{_("File not found")}: "{os.path.normpath(filePath)}".')
+            raise Error(f'{_("File not found")}: "{norm_path(filePath)}".')
 
     return content
 
@@ -3955,7 +3967,7 @@ class NewProjectFactory(FileFactory):
                         sourceFile = fileClass(sourcePath, **kwargs)
                         return sourceFile, targetFile
 
-            raise Error(f'{_("File type is not supported")}: "{os.path.normpath(sourcePath)}".')
+            raise Error(f'{_("File type is not supported")}: "{norm_path(sourcePath)}".')
 
     def _canImport(self, sourcePath):
         """Check whether the source file can be imported to yWriter.
@@ -4777,6 +4789,8 @@ class FileExport(Novel):
             FieldTitle2=self._convert_from_yw(self.fieldTitle2, True),
             FieldTitle3=self._convert_from_yw(self.fieldTitle3, True),
             FieldTitle4=self._convert_from_yw(self.fieldTitle4, True),
+            Language=self.languageCode,
+            Country=self.countryCode,
         )
         return projectTemplateMapping
 
@@ -4799,6 +4813,8 @@ class FileExport(Novel):
             Desc=self._convert_from_yw(self.chapters[chId].desc),
             ProjectName=self._convert_from_yw(self.projectName, True),
             ProjectPath=self.projectPath,
+            Language=self.languageCode,
+            Country=self.countryCode,
         )
         return chapterMapping
 
@@ -4960,6 +4976,8 @@ class FileExport(Novel):
             Notes=self._convert_from_yw(self.scenes[scId].notes),
             ProjectName=self._convert_from_yw(self.projectName, True),
             ProjectPath=self.projectPath,
+            Language=self.languageCode,
+            Country=self.countryCode,
         )
         return sceneMapping
 
@@ -5352,7 +5370,7 @@ class FileExport(Novel):
             try:
                 os.replace(self.filePath, f'{self.filePath}.bak')
             except:
-                raise Error(f'{_("Cannot overwrite file")}: "{os.path.normpath(self.filePath)}".')
+                raise Error(f'{_("Cannot overwrite file")}: "{norm_path(self.filePath)}".')
             else:
                 backedUp = True
         try:
@@ -5361,7 +5379,7 @@ class FileExport(Novel):
         except:
             if backedUp:
                 os.replace(f'{self.filePath}.bak', self.filePath)
-            raise Error(f'{_("Cannot write file")}: "{os.path.normpath(self.filePath)}".')
+            raise Error(f'{_("Cannot write file")}: "{norm_path(self.filePath)}".')
 
     def _convert_from_yw(self, text, quick=False):
         """Return text, converted from yw7 markup to target format.
@@ -5441,9 +5459,9 @@ class CsvFile(Novel):
 
                     self._rows.append(row)
         except(FileNotFoundError):
-            raise Error(f'{_("File not found")}: "{os.path.normpath(self.filePath)}".')
+            raise Error(f'{_("File not found")}: "{norm_path(self.filePath)}".')
         except:
-            raise Error(f'{_("Cannot parse File")}: "{os.path.normpath(self.filePath)}".')
+            raise Error(f'{_("Cannot parse File")}: "{norm_path(self.filePath)}".')
 
     def _get_list(self, text):
         """Convert a string into a list.
