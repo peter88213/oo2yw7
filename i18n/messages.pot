@@ -3,8 +3,8 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.0.1\n"
-"POT-Creation-Date: 2022-11-14 09:58:05\n"
+"Project-Id-Version: 1.1.0\n"
+"POT-Creation-Date: 2022-11-18 12:34:45\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: LANGUAGE\n"
@@ -45,6 +45,9 @@ msgid "Editable manuscript"
 msgstr ""
 
 msgid "Export type is not supported"
+msgstr ""
+
+msgid "File"
 msgstr ""
 
 msgid "File already exists"
@@ -90,9 +93,6 @@ msgid "No yWriter project to write"
 msgstr ""
 
 msgid "Notes chapters"
-msgstr ""
-
-msgid "Novel"
 msgstr ""
 
 msgid "Novel outline"
