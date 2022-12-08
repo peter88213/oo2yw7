@@ -14,7 +14,7 @@ You can find more information on the [help pages](help).
 
 - Windows.
 - [OpenOffice](https://www.openoffice.org) version 3.1 or more recent.
-- [Python](https://www.python.org/) from version 3.6.
+- [Python](https://www.python.org/) version 3.6+.
 - Java Runtime Environment (OpenOffice might need it for macro execution).
 
 
