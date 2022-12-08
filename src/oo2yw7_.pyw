@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Convert html/csv to yw7. 
 
 Version @release

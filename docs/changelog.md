@@ -4,6 +4,12 @@
 
 ## Changelog
 
+### v1.1.1
+
+- Remove "shebang" to make the program run with Python 3.11. 
+
+Based on PyWriter v9.0.4
+
 ### v1.1.0
 
 - Code optimization and library update. 

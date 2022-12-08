@@ -1,7 +1,6 @@
-#!/usr/bin/env python3
 """Convert html/csv to yw7. 
 
-Version 1.1.0
+Version 1.1.1
 Requires Python 3.6+
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/oo2yw7
