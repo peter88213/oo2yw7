@@ -8,7 +8,7 @@
 
 - Remove "shebang" to make the program run with Python 3.11. 
 
-Based on PyWriter v9.0.4
+Based on PyWriter v9.0.5
 
 ### v1.1.0
 
