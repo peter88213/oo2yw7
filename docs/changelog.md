@@ -4,6 +4,12 @@
 
 ## Changelog
 
+### v1.1.2
+
+- Make it run on old Windows versions. 
+
+Based on PyWriter v10.0.1
+
 ### v1.1.1
 
 - Remove "shebang" to make the program run with Python 3.11. 

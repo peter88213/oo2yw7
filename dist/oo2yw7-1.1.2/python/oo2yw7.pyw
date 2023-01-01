@@ -1,6 +1,6 @@
 """Convert html/csv to yw7. 
 
-Version 1.1.1
+Version 1.1.2
 Requires Python 3.6+
 Copyright (c) 2022 Peter Triesberger
 For further information see https://github.com/peter88213/oo2yw7
@@ -9,7 +9,6 @@ Published under the MIT License (https://opensource.org/licenses/mit-license.php
 import os
 import sys
 import platform
-import re
 import gettext
 import locale
 
@@ -17,13 +16,9 @@ __all__ = ['Error',
            '_',
            'LOCALE_PATH',
            'CURRENT_LANGUAGE',
-           'ADDITIONAL_WORD_LIMITS',
-           'NO_WORD_LIMITS',
-           'NON_LETTERS',
            'norm_path',
            'string_to_list',
            'list_to_string',
-           'get_languages',
            ]
 
 
@@ -33,7 +28,11 @@ class Error(Exception):
 
 #--- Initialize localization.
 LOCALE_PATH = f'{os.path.dirname(sys.argv[0])}/locale/'
-CURRENT_LANGUAGE = locale.getlocale()[0][:2]
+try:
+    CURRENT_LANGUAGE = locale.getlocale()[0][:2]
+except:
+    # Fallback for old Windows versions.
+    CURRENT_LANGUAGE = locale.getdefaultlocale()[0][:2]
 try:
     t = gettext.translation('pywriter', LOCALE_PATH, languages=[CURRENT_LANGUAGE])
     _ = t.gettext
@@ -41,20 +40,6 @@ except:
 
     def _(message):
         return message
-
-#--- Regular expressions for counting words and characters like in LibreOffice.
-# See: https://help.libreoffice.org/latest/en-GB/text/swriter/guide/words_count.html
-
-ADDITIONAL_WORD_LIMITS = re.compile('--|—|–')
-# this is to be replaced by spaces, thus making dashes and dash replacements word limits
-
-NO_WORD_LIMITS = re.compile('\[.+?\]|\/\*.+?\*\/|-|^\>', re.MULTILINE)
-# this is to be replaced by empty strings, thus excluding markup and comments from
-# word counting, and making hyphens join words
-
-NON_LETTERS = re.compile('\[.+?\]|\/\*.+?\*\/|\n|\r')
-# this is to be replaced by empty strings, thus excluding markup, comments, and linefeeds
-# from letter counting
 
 
 def norm_path(path):
@@ -111,24 +96,6 @@ def list_to_string(elements, divider=';'):
 
     except:
         return ''
-
-
-LANGUAGE_TAG = re.compile('\[lang=(.*?)\]')
-
-
-def get_languages(text):
-    """Return a generator object with the language codes appearing in text.
-    
-    Example:
-    - language markup: 'Standard text [lang=en-AU]Australian text[/lang=en-AU].'
-    - language code: 'en-AU'
-    """
-    if text:
-        m = LANGUAGE_TAG.search(text)
-        while m:
-            text = text[m.span()[1]:]
-            yield m.group(1)
-            m = LANGUAGE_TAG.search(text)
 
 
 
@@ -214,6 +181,7 @@ class Ui:
 
     def show_warning(self, message):
         """Stub for displaying a warning message."""
+import re
 
 
 class BasicElement:
@@ -238,6 +206,8 @@ class BasicElement:
         self.kwVar = {}
         # dictionary
         # Optional key/value instance variables for customization.
+
+LANGUAGE_TAG = re.compile('\[lang=(.*?)\]')
 
 
 class Novel(BasicElement):
@@ -393,11 +363,26 @@ class Novel(BasicElement):
         - language markup: 'Standard text [lang=en-AU]Australian text[/lang=en-AU].'
         - language code: 'en-AU'
         """
+
+        def languages(text):
+            """Return a generator object with the language codes appearing in text.
+            
+            Example:
+            - language markup: 'Standard text [lang=en-AU]Australian text[/lang=en-AU].'
+            - language code: 'en-AU'
+            """
+            if text:
+                m = LANGUAGE_TAG.search(text)
+                while m:
+                    text = text[m.span()[1]:]
+                    yield m.group(1)
+                    m = LANGUAGE_TAG.search(text)
+
         self.languages = []
         for scId in self.scenes:
             text = self.scenes[scId].sceneContent
             if text:
-                for language in get_languages(text):
+                for language in languages(text):
                     if not language in self.languages:
                         self.languages.append(language)
 
@@ -409,7 +394,11 @@ class Novel(BasicElement):
         """
         if not self.languageCode or not self.countryCode:
             # Language or country isn't set.
-            sysLng, sysCtr = locale.getlocale()[0].split('_')
+            try:
+                sysLng, sysCtr = locale.getlocale()[0].split('_')
+            except:
+                # Fallback for old Windows versions.
+                sysLng, sysCtr = locale.getdefaultlocale()[0].split('_')
             self.languageCode = sysLng
             self.countryCode = sysCtr
             return
@@ -932,6 +921,20 @@ class Chapter(BasicElement):
         # The chapter's scene IDs. The order of its elements
         # corresponds to the chapter's order of the scenes.
 
+#--- Regular expressions for counting words and characters like in LibreOffice.
+# See: https://help.libreoffice.org/latest/en-GB/text/swriter/guide/words_count.html
+
+ADDITIONAL_WORD_LIMITS = re.compile('--|—|–')
+# this is to be replaced by spaces, thus making dashes and dash replacements word limits
+
+NO_WORD_LIMITS = re.compile('\[.+?\]|\/\*.+?\*\/|-|^\>', re.MULTILINE)
+# this is to be replaced by empty strings, thus excluding markup and comments from
+# word counting, and making hyphens join words
+
+NON_LETTERS = re.compile('\[.+?\]|\/\*.+?\*\/|\n|\r')
+# this is to be replaced by empty strings, thus excluding markup, comments, and linefeeds
+# from letter counting
+
 
 class Scene(BasicElement):
     """yWriter scene representation.
@@ -1138,12 +1141,18 @@ class Scene(BasicElement):
         # xml: <ImageFile>
 
         self.scnArcs = None
-        # List of str
+        # str
         # xml: <Field_SceneArcs>
+        # Semicolon-separated arc titles.
+        # Example: 'A' for 'A-Storyline'.
+        # If the scene is "Todo" type, an assigned single arc
+        # should be defined by it.
 
         self.scnStyle = None
-        # int
+        # str
         # xml: <Field_SceneStyle>
+        # May be 'explaining', 'descriptive', or 'summarizing'.
+        # None is the default, meaning 'staged'.
 
     @property
     def sceneContent(self):
