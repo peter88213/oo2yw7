@@ -25,27 +25,12 @@ Sub export_yw
 
 	extension = Right(document_path, 5)
 	
-	If InStr(extension, &quot;.odt&quot;) OR InStr(extension, &quot;.html&quot;) Then
-		&apos; ----------------------------------------------------------------------
-		&apos; Save document in HTML format
-		&apos; ----------------------------------------------------------------------
-		document_path = REPLACE(document_path,&quot;.html&quot;,&quot;.odt&quot;)
-		temp_path = REPLACE(document_path,&quot;.odt&quot;,&quot;.html&quot;)
-		&apos; Use path and name of input file -- just change file extension
-		
-		Dim args1(1) As new com.sun.star.beans.PropertyValue
-		args1(0).Name = &quot;URL&quot;
-		args1(0).Value = temp_path
-		args1(1).Name = &quot;FilterName&quot;
-		args1(1).Value = &quot;HTML (StarWriter)&quot;
-		dispatcher.executeDispatch(document, &quot;.uno:SaveAs&quot;, &quot;&quot;, 0, args1())
-		
+	If InStr(extension, &quot;.odt&quot;) Then
 		&apos; ----------------------------------------------------------------------
 		&apos; Save document in OpenDocument format
 		&apos; ----------------------------------------------------------------------
-		args1(0).Value = document_path
-		args1(1).Value = &quot;writer8&quot;
-		dispatcher.executeDispatch(document, &quot;.uno:SaveAs&quot;, &quot;&quot;, 0, args1())
+		temp_path = document_path
+		thisComponent.store()
 		
 		
 	ElseIf InStr(extension, &quot;.ods&quot;) OR InStr(extension, &quot;.csv&quot;) Then
