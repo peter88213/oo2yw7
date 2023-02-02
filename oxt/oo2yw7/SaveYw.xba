@@ -30,7 +30,7 @@ Sub export_yw
 		&apos; Save document in OpenDocument format
 		&apos; ----------------------------------------------------------------------
 		temp_path = document_path
-		thisComponent.store()
+		ThisComponent.store()
 		
 		
 	ElseIf InStr(extension, &quot;.ods&quot;) OR InStr(extension, &quot;.csv&quot;) Then
