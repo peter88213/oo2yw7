@@ -15,58 +15,30 @@ Sub export_yw
 &apos; ----------------------------------------------------------------------
 	Dim document As object
 	Dim dispatcher As object
-	Dim document_path, temp_path As String
-
+	Dim document_path, target_path As String
+	
 	On Error Goto DontSave
 
 	document   = ThisComponent.CurrentController.Frame
 	dispatcher = createUnoService(&quot;com.sun.star.frame.DispatchHelper&quot;)
 	document_path = ThisComponent.getURL()
-
 	extension = Right(document_path, 5)
 	
-	If InStr(extension, &quot;.odt&quot;) Then
-		&apos; ----------------------------------------------------------------------
-		&apos; Save document in OpenDocument format
-		&apos; ----------------------------------------------------------------------
-		temp_path = document_path
-		ThisComponent.store()
-		
-		
-	ElseIf InStr(extension, &quot;.ods&quot;) OR InStr(extension, &quot;.csv&quot;) Then
-		&apos; ----------------------------------------------------------------------
-		&apos; Save document in csv format
-		&apos; ----------------------------------------------------------------------
-		document_path = REPLACE(document_path,&quot;.csv&quot;,&quot;.ods&quot;)
-		temp_path = REPLACE(document_path,&quot;.ods&quot;,&quot;.csv&quot;)
-		&apos; Use path and name of input file -- just change file extension
-		
-		Dim args2(2) As new com.sun.star.beans.PropertyValue
-		args2(0).Name = &quot;URL&quot;
-		args2(0).Value = temp_path
-		args2(1).Name = &quot;FilterName&quot;
-		args2(1).Value = &quot;Text - txt - csv (StarCalc)&quot;
-		args2(2).Name = &quot;FilterOptions&quot;
-		args2(2).Value = &quot;44,34,76,1,,0,true,true,true&quot;
-		dispatcher.executeDispatch(document, &quot;.uno:SaveAs&quot;, &quot;&quot;, 0, args2())
-		
-		&apos; ----------------------------------------------------------------------
-		&apos; Save document in OpenDocument format
-		&apos; ----------------------------------------------------------------------
-		args2(0).Value = document_path
-		args2(1).Value = &quot;calc8&quot;
-		dispatcher.executeDispatch(document, &quot;.uno:SaveAs&quot;, &quot;&quot;, 0, args2())
-		
-		
+	&apos; ----------------------------------------------------------------------
+	&apos; Save the document.
+	&apos; ----------------------------------------------------------------------
+	ThisComponent.store()		
+	
+	&apos; ----------------------------------------------------------------------
+	&apos; Convert the saved document.
+	&apos; ----------------------------------------------------------------------
+	If InStr(extension, &quot;.odt&quot;) OR InStr(extension, &quot;.ods&quot;) Then
+		target_path = document_path
 	Else
 		msgbox(&quot;ERROR: File type not supported.&quot;)
 		Goto DontSave
-	
+
 	End If	
-		
-	&apos; ----------------------------------------------------------------------
-	&apos; Convert to yw7
-	&apos; ----------------------------------------------------------------------
 	Dim launcher As Object
 	Dim aCommand,aParameter As String
 	Dim nflags as Long
@@ -74,7 +46,7 @@ Sub export_yw
 	sPackageLocation = oPackageInfoProvider.getPackageLocation(&quot;org.peter88213.oo2yw7&quot;)	
 	launcher = CreateUnoService(&quot;com.sun.star.system.SystemShellExecute&quot;)
 	aCommand = sPackageLocation + &quot;/python/oo2yw7.pyw&quot;
-	aParameter = &quot;&quot;&quot;&quot; + ConvertFromURL(temp_path) + &quot;&quot;&quot;&quot;
+	aParameter = &quot;&quot;&quot;&quot; + ConvertFromURL(target_path) + &quot;&quot;&quot;&quot;
 	nFlags = 0
 	launcher.execute(aCommand, aParameter, nFlags)	
 
