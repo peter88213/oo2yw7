@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE script:module PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "module.dtd">
+<script:module xmlns:script="http://openoffice.org/2000/script" script:name="SaveYw" script:language="StarBasic">REM  *****  BASIC  *****
+
+&apos; SaveYw - OpenOffice macro for yWriter file export 
+&apos; 
+&apos; Copyright (c) 2022 Peter Triesberger
+&apos; For further information see https://github.com/peter88213/oo2yw7
+&apos; Published under the MIT License (https://opensource.org/licenses/mit-license.php)
+
+Sub export_yw
+&apos; ----------------------------------------------------------------------
+&apos; Save an OpenDocument file as html or csv and call an external
+&apos;  Python 3 script to convert the csv file to yWriter format.
+&apos; ----------------------------------------------------------------------
+	Dim document As object
+	Dim dispatcher As object
+	Dim document_path, target_path As String
+	
+	On Error Goto DontSave
+
+	document   = ThisComponent.CurrentController.Frame
+	dispatcher = createUnoService(&quot;com.sun.star.frame.DispatchHelper&quot;)
+	document_path = ThisComponent.getURL()
+	extension = Right(document_path, 5)
+	
+	&apos; ----------------------------------------------------------------------
+	&apos; Save the document.
+	&apos; ----------------------------------------------------------------------
+	ThisComponent.store()		
+	
+	&apos; ----------------------------------------------------------------------
+	&apos; Convert the saved document.
+	&apos; ----------------------------------------------------------------------
+	If InStr(extension, &quot;.odt&quot;) OR InStr(extension, &quot;.ods&quot;) Then
+		target_path = document_path
+	Else
+		msgbox(&quot;ERROR: File type not supported.&quot;)
+		Goto DontSave
+
+	End If	
+	Dim launcher As Object
+	Dim aCommand,aParameter As String
+	Dim nflags as Long
+	oPackageInfoProvider = GetDefaultContext.getByName(&quot;/singletons/com.sun.star.deployment.PackageInformationProvider&quot;)
+	sPackageLocation = oPackageInfoProvider.getPackageLocation(&quot;org.peter88213.oo2yw7&quot;)	
+	launcher = CreateUnoService(&quot;com.sun.star.system.SystemShellExecute&quot;)
+	aCommand = sPackageLocation + &quot;/python/oo2yw7.pyw&quot;
+	aParameter = &quot;&quot;&quot;&quot; + ConvertFromURL(target_path) + &quot;&quot;&quot;&quot;
+	nFlags = 0
+	launcher.execute(aCommand, aParameter, nFlags)	
+
+DontSave:
+
+end Sub
+
+</script:module>
