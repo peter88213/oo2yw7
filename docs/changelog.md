@@ -4,11 +4,23 @@
 
 ## Changelog
 
+### v1.2.2
+
+- Speed up execution by using a starter script.
+
+Based on PyWriter v12.1.0
+
 ### v1.2.1
 
 - Speed up the process: Don't try to remove nonexistent tempfile after yw import. 
 
 Based on PyWriter v12.0.1
+
+### v1.2.0
+      
+- Speed up the process by converting the ODS document instead of an intermediate HTML file.
+
+Based on PyWriter v12.0.0
 
 ### v1.1.2
 
