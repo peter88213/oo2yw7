@@ -1,6 +1,6 @@
 """Convert odt/ods to yw7. 
 
-Version 1.2.3
+Version 1.2.4
 Requires Python 3.6+
 Copyright (c) 2023 Peter Triesberger
 For further information see https://github.com/peter88213/oo2yw7

@@ -4,6 +4,12 @@
 
 ## Changelog
 
+### v1.2.4
+
+- When exporting to yw7, save the document only if modified.
+
+Based on PyWriter v12.1.0
+
 ### v1.2.3
 
 - Rename and refactor the Python script and the starter script, so that *oo2yw7.py* can be used as a standalone script as well.
