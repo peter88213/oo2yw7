@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="oo2yw7" basedir=".">
-	<property name="version" value="1.2.2" />
+	<property name="version" value="1.2.3" />
 	
 	<property name="application" value="${ant.project.name}" />
 	<property name="release" value="${application}-${version}" />
@@ -16,7 +16,7 @@
 	<property name="i18n-path" location="../i18n" />
 
 	<target name="build" description="inline all library modules">
-		<delete file="${test-path}/${application}_lib.py" />
+		<delete file="${test-path}/${application}.py" />
 		<exec executable="python" failonerror="true">
 		    <arg value="make_pot.py"/>
 		    <arg value="${version}"/>
@@ -80,10 +80,10 @@
 			<fileset dir="${oxt-path}/${application}" />
 		</copy>
 
-		<copy file="${test-path}/${application}_lib.py" todir="${dist-path}/${release}/python" />
-		<copy file="${source-path}/${application}.pyw" todir="${dist-path}/${release}/python" />
-		<replace encoding="utf-8" file="${dist-path}/${release}/python/${application}.pyw" token="@release" value="${version}" />
-		<fixcrlf encoding="utf-8" eol="lf" file="${dist-path}/${release}/python/${application}.pyw" />
+		<copy file="${test-path}/${application}.py" todir="${dist-path}/${release}/python" />
+		<copy file="${source-path}/run.pyw" todir="${dist-path}/${release}/python" />
+		<replace encoding="utf-8" file="${dist-path}/${release}/python/${application}.py" token="@release" value="${version}" />
+		<fixcrlf encoding="utf-8" eol="lf" file="${dist-path}/${release}/python/${application}.py" />
 		
 		<copy todir="${dist-path}/${release}/python/locale"> 
 			<fileset dir="${i18n-path}/locale" />
@@ -111,7 +111,7 @@
 	</target>
 
 	<target name="clean" description="clean up">		
-		<delete file="${test-path}/${application}_lib.py" />		
+		<delete file="${test-path}/${application}.py" />		
 		<delete dir="${build-path}" />
 	</target>
 	

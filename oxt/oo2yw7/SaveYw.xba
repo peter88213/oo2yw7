@@ -45,7 +45,7 @@ Sub export_yw
 	oPackageInfoProvider = GetDefaultContext.getByName(&quot;/singletons/com.sun.star.deployment.PackageInformationProvider&quot;)
 	sPackageLocation = oPackageInfoProvider.getPackageLocation(&quot;org.peter88213.oo2yw7&quot;)	
 	launcher = CreateUnoService(&quot;com.sun.star.system.SystemShellExecute&quot;)
-	aCommand = sPackageLocation + &quot;/python/oo2yw7.pyw&quot;
+	aCommand = sPackageLocation + &quot;/python/run.pyw&quot;
 	aParameter = &quot;&quot;&quot;&quot; + ConvertFromURL(target_path) + &quot;&quot;&quot;&quot;
 	nFlags = 0
 	launcher.execute(aCommand, aParameter, nFlags)	

@@ -13,8 +13,8 @@ import inliner
 
 SRC = '../src/'
 BUILD = '../test/'
-SOURCE_FILE = f'{SRC}oo2yw7_.pyw'
-TARGET_FILE = f'{BUILD}oo2yw7_lib.py'
+SOURCE_FILE = f'{SRC}oo2yw7_.py'
+TARGET_FILE = f'{BUILD}oo2yw7.py'
 
 
 def main():
