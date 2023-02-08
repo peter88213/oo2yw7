@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.2.4\n"
-"POT-Creation-Date: 2023-02-07 13:36:04\n"
-"PO-Revision-Date: 2023-02-07 13:36:04\n"
+"Project-Id-Version: 1.2.5\n"
+"POT-Creation-Date: 2023-02-08 13:08:21\n"
+"PO-Revision-Date: 2023-02-08 13:08:21\n"
 "Last-Translator: Peter Triesberger\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -42,6 +42,9 @@ msgstr "Erzeuge eine yWriter-Projektdatei aus {0}\nNeues Projekt: \"{1}\""
 
 msgid "Editable manuscript"
 msgstr "Manuskript zum Bearbeiten"
+
+msgid "Export to yw7"
+msgstr "Zu yw7 exportieren"
 
 msgid "Export type is not supported"
 msgstr "Exporttyp nicht unterstützt"

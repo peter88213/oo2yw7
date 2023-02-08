@@ -12,10 +12,18 @@ from pywriter.converter.yw7_importer import Yw7Importer
 from pywriter.ui.ui_mb import UiMb
 
 
-def main(sourcePath, suffix=None):
+def main(sourcePath):
+    """Convert an odt/ods document to yw7.
+    
+    - If yw7 project file exists, update it from odt/ods.
+    - Otherwise, create a new yw7 project.
+    
+    Positional arguments:
+        sourcePath -- document to convert. 
+    """
     converter = Yw7Importer()
-    converter.ui = UiMb(f'yWriter import/export (Python version {platform.python_version()})')
-    kwargs = {'suffix': suffix}
+    converter.ui = UiMb(f'{_("Export to yw7")} (Python version {platform.python_version()})')
+    kwargs = {'suffix': None}
     converter.run(sourcePath, **kwargs)
 
 

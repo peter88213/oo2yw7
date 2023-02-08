@@ -1,6 +1,6 @@
 """Convert odt/ods to yw7. 
 
-Version 1.2.4
+Version 1.2.5
 Requires Python 3.6+
 Copyright (c) 2023 Peter Triesberger
 For further information see https://github.com/peter88213/oo2yw7
@@ -5665,10 +5665,18 @@ class UiMb(Ui):
         messagebox.showwarning(self.title, message)
 
 
-def main(sourcePath, suffix=None):
+def main(sourcePath):
+    """Convert an odt/ods document to yw7.
+    
+    - If yw7 project file exists, update it from odt/ods.
+    - Otherwise, create a new yw7 project.
+    
+    Positional arguments:
+        sourcePath -- document to convert. 
+    """
     converter = Yw7Importer()
-    converter.ui = UiMb(f'yWriter import/export (Python version {platform.python_version()})')
-    kwargs = {'suffix': suffix}
+    converter.ui = UiMb(f'{_("Export to yw7")} (Python version {platform.python_version()})')
+    kwargs = {'suffix': None}
     converter.run(sourcePath, **kwargs)
 
 

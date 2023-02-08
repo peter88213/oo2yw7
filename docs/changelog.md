@@ -4,6 +4,14 @@
 
 ## Changelog
 
+### v1.2.5
+
+- Simplify the SaveYw.xba macro.
+- Fix message window heading.
+- Minor refactoring.
+
+Based on PyWriter v12.1.0
+
 ### v1.2.4
 
 - When exporting to yw7, save the document only if modified.
