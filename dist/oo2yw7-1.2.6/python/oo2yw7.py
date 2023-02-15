@@ -1,6 +1,6 @@
 """Convert odt/ods to yw7. 
 
-Version 1.2.5
+Version 1.2.6
 Requires Python 3.6+
 Copyright (c) 2023 Peter Triesberger
 For further information see https://github.com/peter88213/oo2yw7
@@ -462,7 +462,7 @@ class YwCnvUi:
             source.read()
             target.novel = source.novel
             target.write()
-        except Error as ex:
+        except Exception as ex:
             message = f'!{str(ex)}'
             self.newFile = None
         else:
@@ -500,7 +500,7 @@ class YwCnvUi:
                 source.read()
                 target.novel = source.novel
                 target.write()
-            except Error as ex:
+            except Exception as ex:
                 message = f'!{str(ex)}'
                 self.newFile = None
             else:
@@ -537,7 +537,7 @@ class YwCnvUi:
             source.read()
             target.novel = source.novel
             target.write()
-        except Error as ex:
+        except Exception as ex:
             message = f'!{str(ex)}'
         else:
             message = f'{_("File written")}: "{norm_path(target.filePath)}".'
