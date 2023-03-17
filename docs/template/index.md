@@ -15,7 +15,6 @@ You can find more information on the [help pages](help).
 - Windows.
 - [OpenOffice](https://www.openoffice.org) version 3.1 or more recent.
 - [Python](https://www.python.org/) version 3.6+.
-- Java Runtime Environment (OpenOffice might need it for macro execution).
 
 
 **LibreOffice users:** *A stand-alone LibreOffice variant not requiring a separate Python installation can be found [here](https://peter88213.github.io/lo2yw7).*
