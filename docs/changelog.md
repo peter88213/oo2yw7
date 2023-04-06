@@ -4,6 +4,12 @@
 
 ## Changelog
 
+### v1.2.8
+
+- Change the wording of the menu entry.
+
+Based on PyWriter v12.3.0
+
 ### v1.2.7
 
 - Reduce the memory use by discarding the docstrings on building.
