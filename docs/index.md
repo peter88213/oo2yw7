@@ -22,7 +22,7 @@ You can find more information on the [help pages](help).
 
 ## Download and install
 
-[Download the latest release (version 1.2.13)](https://raw.githubusercontent.com/peter88213/oo2yw7/main/dist/oo2yw7-1.2.13.oxt)
+[Download the latest release (version 1.2.14)](https://raw.githubusercontent.com/peter88213/oo2yw7/main/dist/oo2yw7-1.2.14.oxt)
 
 - Installation right at download, by double-clicking on the downloaded file, or via the OpenOffice Extension Manager.
 - After installation (and Office restart) you find a new "yWriter Import/Export" submenu in the "Files" menu.

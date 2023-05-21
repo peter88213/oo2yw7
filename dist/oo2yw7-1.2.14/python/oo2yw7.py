@@ -1,6 +1,6 @@
 """Convert odt/ods to yw7. 
 
-Version 1.2.13
+Version 1.2.14
 Requires Python 3.6+
 Copyright (c) 2023 Peter Triesberger
 For further information see https://github.com/peter88213/oo2yw7
@@ -2219,6 +2219,8 @@ class OdtParser(sax.ContentHandler):
                 else:
                     locale = lngCode
                 self._languageTags[self._style] = locale
+        elif name == 'text:s':
+            self.handle_starttag('s', [()])
 
     def handle_comment(self, data):
         pass
@@ -2274,6 +2276,8 @@ class OdtReader(File, OdtParser):
                         self.novel.chapters[self._chId].srtScenes = []
                         self.novel.srtChapters.append(self._chId)
                     self.novel.chapters[self._chId].chType = self._TYPE
+        elif tag == 's':
+            self._lines.append(' ')
 
     def read(self):
         OdtParser.feed_file(self, self.filePath)
@@ -2586,6 +2590,8 @@ class OdtRImport(OdtRFormatted):
                     self._lines.append(f'[lang={self._language}]')
             except:
                 pass
+        elif tag == 's':
+            self._lines.append(' ')
 
     def read(self):
         self.novel.languages = []
@@ -2663,6 +2669,8 @@ class OdtROutline(OdtReader):
                 elif attr[0] == 'country':
                     if attr[1]:
                         self.novel.countryCode = attr[1]
+        elif tag == 's':
+            self._lines.append(' ')
 
 
 class NewProjectFactory(FileFactory):
@@ -2715,13 +2723,12 @@ class OdtRProof(OdtRFormatted):
                 self._skip_data = False
             elif '[ScID' in data:
                 self._scId = re.search('[0-9]+', data).group()
-                if not self._scId in self.novel.scenes:
-                    self.novel.scenes[self._scId] = Scene()
-                    self.novel.chapters[self._chId].srtScenes.append(self._scId)
                 self._lines = []
             elif '[/ScID' in data:
-                text = ''.join(self._lines)
-                self.novel.scenes[self._scId].sceneContent = self._cleanup_scene(text).strip()
+                if self._scId in self.novel.scenes:
+                    text = ''.join(self._lines)
+                    self.novel.scenes[self._scId].sceneContent = self._cleanup_scene(text).strip()
+                    self._lines = []
                 self._scId = None
             elif self._scId is not None:
                 self._lines.append(data)
@@ -2783,6 +2790,8 @@ class OdtRProof(OdtRFormatted):
                         self.novel.countryCode = attr[1]
         elif tag in ('br', 'ul'):
             self._skip_data = True
+        elif tag == 's':
+            self._lines.append(' ')
 
 
 
@@ -2883,6 +2892,8 @@ class OdtRManuscript(OdtRFormatted):
                 elif attr[0] == 'country':
                     if attr[1]:
                         self.novel.countryCode = attr[1]
+        elif tag == 's':
+            self._lines.append(' ')
 
 
 
@@ -3013,6 +3024,8 @@ class OdtRCharacters(OdtReader):
                     self._section = 'goals'
                 elif attrs[0][1].startswith('CrID_notes'):
                     self._section = 'notes'
+        elif tag == 's':
+            self._lines.append(' ')
 
 
 
@@ -3045,6 +3058,8 @@ class OdtRLocations(OdtReader):
                     if not self._lcId in self.novel.locations:
                         self.novel.srtLocations.append(self._lcId)
                         self.novel.locations[self._lcId] = WorldElement()
+        elif tag == 's':
+            self._lines.append(' ')
 
 
 
@@ -3077,6 +3092,8 @@ class OdtRItems(OdtReader):
                     if not self._itId in self.novel.items:
                         self.novel.srtItems.append(self._itId)
                         self.novel.items[self._itId] = WorldElement()
+        elif tag == 's':
+            self._lines.append(' ')
 
 from string import Template
 
