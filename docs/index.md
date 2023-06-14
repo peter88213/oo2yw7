@@ -22,6 +22,12 @@ You can find more information on the [help pages](help).
 
 ## Download and install
 
+### Please note
+
+**Developing of this extension is discontinued.** You may wish to install [pywoo](https://peter88213.github.io/pywoo) instead.
+
+
+
 [Download the latest release (version 1.3.1)](https://raw.githubusercontent.com/peter88213/oo2yw7/main/dist/oo2yw7-1.3.1.oxt)
 
 - Installation right at download, by double-clicking on the downloaded file, or via the OpenOffice Extension Manager.
